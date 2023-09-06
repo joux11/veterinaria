@@ -61,21 +61,21 @@
                 <div class="text-center" id="loaderForm" style="display: none;">
                     <div class="spinner-border text-primary" style="margin:0px auto;"></div>
                 </div>
-                <div class="card-header bg-primary text-white">
-                    <b>REGISTRAR DATOS PARA UN CONTROL RAPIDO</b>
+                <div class="card-header bg-yellow text-white">
+                    <b>REGISTRAR DATOS PARA UN NUEVO SERVICIO</b>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-lg-4">
                             <label for="txtNombreMascota">Nombre de la Mascota:</label>
                             <input type="text" id="txtNombreMascotaF" name="txtNombreMascota" class="form-control" readonly>
                         </div>
-                        <div class="col">
+                        <div class="col-lg-4">
                             <input type="hidden" name="idveterinario" id="idveterinario" value="<?= $_SESSION['idveterinario'] ?>">
                             <label for="veterinario">Veterinario:</label>
                             <input type="text" id="veterinario" name="veterinario" class="form-control" value="<?= $_SESSION['nombre'] . " " . $_SESSION['apellido'] ?>" readonly>
                         </div>
-                        <div class="col">
+                        <div class="col-lg-4">
                             <label for="fecha">Fecha:</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="fechaConsulta" readonly />
@@ -84,44 +84,38 @@
                                 </label>
                             </div>
                         </div>
+                        <div class="col-lg-4">
+                            <label for="tipoAtencion">Tipo de Atencion:</label>
+                            <select class="form-select form-select" name="tipoAtencion" id="tipoAtencion">
+                                <option selected>Elija la Atencion</option>
+                                <option value="Spa">Spa</option>
+                                <option value="Peluqueria">Peluqueria</option>
+                                <option value="Lavada">Lavada</option>
+                            </select>
+
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="observacion">Observacion:</label>
+                            <input type="text" id="observacion" name="observacion" class="form-control">
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="costo">Costo:</label>
+                            <input type="text" id="costo" name="costo" class="form-control">
+                        </div>
                     </div>
                     <br>
-                    <div class="col-lg-12">
-                        <h5>Control Previo</h5>
+                    <!-- <div class="col-lg-12">
+                        <h5>Tipo de Atencion</h5>
                         <hr class="my-1">
                     </div>
                     <div class="row">
-                        <div class="col">
-                            <label for="temperatura">Temperatura:</label>
-                            <input type="text" id="temperatura" name="temperatura" class="form-control">
-                        </div>
-                        <div class="col">
-                            <label for="frecuenciaCardiaca">Frecuencia Cardiaca:</label>
-                            <input type="text" id="frecuenciaCardiaca" name="frecuenciaCardiaca" class="form-control">
-                        </div>
-                        <div class="col">
-                            <label for="frecuenciaRespiratoria">Frecuencia Respiratoria:</label>
-                            <input type="text" id="frecuenciaRespiratoria" name="frecuenciaRespiratoria" class="form-control">
-                        </div>
+                        
 
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="mucosa">Mucosa:</label>
-                            <input type="text" id="mucosa" name="mucosa" class="form-control">
-                        </div>
-                        <div class="col">
-                            <label for="peso">Peso:</label>
-                            <input type="text" id="peso" name="peso" class="form-control">
-                        </div>
-                        <div class="col">
-                            <label for="motivo">Motivo:</label>
-                            <input type="text" id="motivo" name="motivo" class="form-control">
-                        </div>
-                    </div>
+                    </div> -->
+
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-success" id="btnGuardarConsulta">Guardar Consulta</button>
+                    <button class="btn btn-success" id="btnGuardarServicio">Guardar</button>
                     <a href="javascript:history.back()">Atras</a>
                 </div>
             </div>
@@ -140,7 +134,7 @@
 <?php require_once("Views/footer.php"); ?>
 <script>
     window.onload = () => {
-        fnNuevaConsulta()
+        fnNuevoServicio()
     }
     $('#fechaConsulta').datepicker({
         format: 'yyyy-mm-dd',

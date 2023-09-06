@@ -314,7 +314,7 @@ function fnNuevaMascota() {
             formData.append('txtTamaño', $('#txtTamaño').val());
             formData.append('txtSexo', $('#txtSexo').val());
             formData.append('txtEdad', $('#txtEdad').val());
-            formData.append('dirFoto',file)
+            formData.append('dirFoto', file)
 
 
 
@@ -330,7 +330,7 @@ function fnNuevaMascota() {
                 contentType: false,
                 processData: false,
                 success: function (response) {
-                    
+
                     if (response.status) {
 
                         Swal.fire({
@@ -620,9 +620,11 @@ function fnHMascotas() {
         contentType: false,
         processData: false,
         success: function (response) {
-            
-            $("#btnNuevaConsulta").attr("href","nuevaConsulta?id="+response.idmascota);
+
+            $("#btnNuevaConsulta").attr("href", "nuevaConsulta?id=" + response.idmascota);
+            $("#btnNuevoServicio").attr("href", "nuevoServicio?id=" + response.idmascota);
             $("#txtNombreMascota").text(response.nombreMascota);
+            $("#idmascota").val(response.idmascota);
             $("#txtNombreMascotaF").val(response.nombreMascota);
             $("#txtColor").text(response.color);
             $("#txtTamanio").text(response.tamanio);
@@ -635,22 +637,450 @@ function fnHMascotas() {
             $("#txtDireccion").text(response.direccion);
             $("#txtCelular").text(response.celular);
             $("#txtCedula").text(response.cedula);
-        
-            if(response.foto == null || response.foto == ""){
+
+            if (response.foto == null || response.foto == "") {
                 $("#fotoMascota").attr("src", "../assets/uploads/sinFoto.jpg");
-            }else{
+            } else {
                 $("#fotoMascota").attr("src", response.foto);
             }
+
+
+
+        }
+    });
+    $.ajax({
+        type: "POST",
+        url: base_url + "mascotas/getTablaConsultas",
+        data: fd,
+        
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            $("#Tconsultas").html(response);
+        }
+    });
+
+    $.ajax({
+        type: "POST",
+        url: base_url + "mascotas/getTablaServicio",
+        data: fd,
+        
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            $("#Tservicios").html(response);
+        }
+    });
+
+
+
+}
+
+function fnMasDetalles(id){
+    $("#modalDetalles").modal('show');
+    const fd = new FormData();
+    fd.append('id',id);
+
+    $.ajax({
+        type: "POST",
+        url: base_url+"mascotas/getAllConsulta",
+        data:fd ,
+        dataType: "json",
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            $('#txtVeterinario').text(response.veterinario);
+            $('#txtFecha').text(response.fecha);
+            $('#txtTemperatura').text(response.temperatura);
+            $('#txtFCard').text(response.frecuenciaCardiaca);
+            $('#txtFRes').text(response.frecuenciaRespiratoria);
+            $('#txtMucosa').text(response.mucosa);
+            $('#txtPeso').text(response.peso);
+            $('#txtMotivo').text(response.motivo);
             
-
-
         }
     });
 
 }
 
-function fnNuevaConsulta(){
+function fnEliminarConsulta(id){
+    Swal.fire({
+        title: 'Esta seguro de Eliminar?!!',
+        text: "Esto no es reversible",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!'
+    }).then((result) => {
+        var fd = new FormData();
+        if (result.isConfirmed) {
+            fd.append('id', id);
+            $.ajax({
+                type: "POST",
+                url: base_url + "mascotas/delConsulta",
+                data: fd,
+                dataType: "json",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.status) {
+                        Swal.fire(
+                            'Deleted!',
+                            response.msg,
+                            'success'
+                        )
+                        fnHMascotas()
+                    } else {
+                        Swal.fire(
+                            'Deleted!',
+                            response.msg,
+                            'error'
+                        )
+                    }
+
+                }
+            });
+        }
+
+    })
+}
+
+function fnNuevaConsulta() {
     fnHMascotas();
+
+
+    $("input").on("input", function () {
+        $(this).removeClass("is-invalid");
+    });
+    $("#fechaConsulta").change(function () {
+        $(this).removeClass("is-invalid");
+    });
+
+    const btnGuardarConsulta = document.querySelector("#btnGuardarConsulta");
+    btnGuardarConsulta.addEventListener('click', () => {
+        const idmascota = $("#idmascota").val()
+        const idveterinario = $("#idveterinario").val()
+
+        const fechaConsulta = $("#fechaConsulta").val();
+        const temperatura = $("#temperatura").val();
+        const frecuenciaCardiaca = $("#frecuenciaCardiaca").val();
+        const frecuenciaRespiratoria = $("#frecuenciaRespiratoria").val();
+        const mucosa = $("#mucosa").val();
+        const peso = $("#peso").val()
+        const motivo = $("#motivo").val()
+
+        if (fechaConsulta == "" || temperatura == "" || frecuenciaCardiaca == "" || frecuenciaRespiratoria == "" || mucosa == "") {
+
+            if (fechaConsulta.trim() === "") {
+                $("#fechaConsulta").addClass("is-invalid");
+
+            } else {
+                $("#fechaConsulta").removeClass("is-invalid");
+            }
+
+
+            if (temperatura.trim() === "") {
+                $("#temperatura").addClass("is-invalid");
+
+            } else {
+                $("#temperatura").removeClass("is-invalid");
+            }
+
+
+            if (frecuenciaCardiaca.trim() === "") {
+                $("#frecuenciaCardiaca").addClass("is-invalid");
+
+            } else {
+                $("#frecuenciaCardiaca").removeClass("is-invalid");
+            }
+
+
+            if (frecuenciaRespiratoria.trim() === "") {
+                $("#frecuenciaRespiratoria").addClass("is-invalid");
+
+            } else {
+                $("#frecuenciaRespiratoria").removeClass("is-invalid");
+            }
+            if (mucosa.trim() === "") {
+                $("#mucosa").addClass("is-invalid");
+
+            } else {
+                $("#mucosa").removeClass("is-invalid");
+            }
+            if (peso.trim() === "") {
+                $("#peso").addClass("is-invalid");
+
+            } else {
+                $("#peso").removeClass("is-invalid");
+            }
+            if (motivo.trim() === "") {
+                $("#motivo").addClass("is-invalid");
+
+            } else {
+                $("#motivo").removeClass("is-invalid");
+            }
+
+        } else {
+
+            const fd = new FormData();
+
+
+            fd.append('idmascota', idmascota);
+            fd.append('idveterinario', idveterinario);
+            fd.append('fechaConsulta', fechaConsulta);
+            fd.append('temperatura', temperatura);
+            fd.append('frecuenciaCardiaca', frecuenciaCardiaca);
+            fd.append('frecuenciaRespiratoria', frecuenciaRespiratoria);
+            fd.append('mucosa', mucosa);
+            fd.append('peso', peso);
+            fd.append('motivo', motivo);
+
+            
+
+
+            $.ajax({
+                type: "POST",
+                url: base_url+"mascotas/insertConsulta",
+                data: fd,
+                dataType: "json",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.status) {
+
+                        Swal.fire({
+                            title: 'Guardado',
+                            text: response.msg,
+                            icon: 'success',
+
+                            confirmButtonColor: '#3085d6',
+
+                            confirmButtonText: 'OK'
+
+                        },
+                            loaderForm.css('display', 'none'),
+                        ).then((result) => {
+                            if (result.isConfirmed) {
+                                location.href = base_url+"mascotas/historialMedico?id="+idmascota;
+                            }
+                        });
+
+                    } else {
+                        loaderForm.css('display', 'none');
+                        Swal.fire(
+                            'Atencion',
+                            response.msg,
+                            'error'
+                        )
+
+                    }
+                }
+            });
+
+
+        }
+
+    })
+
+
+
+
+
+
+
+}
+
+function fnNuevoServicio() {
+    fnHMascotas();
+    $("input").on("input", function () {
+        $(this).removeClass("is-invalid");
+    });
+    $("#fechaConsulta").change(function () {
+        $(this).removeClass("is-invalid");
+    })
+    const btnGuardarServicio = document.querySelector("#btnGuardarServicio");
+    btnGuardarServicio.addEventListener('click', () => {
+        const idmascota = $("#idmascota").val()
+        const idveterinario = $("#idveterinario").val();
+
+        const fecha = $("#fechaConsulta").val();
+        const observacion = $("#observacion").val();
+        const costo = $("#costo").val()
+        const tipoAtencion = $("#tipoAtencion").val()
+
+        if(fecha == "" || observacion == "" || costo == "" || tipoAtencion == "" ){
+            if (fecha.trim() === "") {
+                $("#fechaConsulta").addClass("is-invalid");
+
+            } else {
+                $("#fechaConsulta").removeClass("is-invalid");
+            }
+
+            if (observacion.trim() === "") {
+                $("#observacion").addClass("is-invalid");
+
+            } else {
+                $("#observacion").removeClass("is-invalid");
+            }
+
+            if (costo.trim() === "") {
+                $("#costo").addClass("is-invalid");
+
+            } else {
+                $("#costo").removeClass("is-invalid");
+            }
+
+            if (mottipoAtencionivo.trim() === "") {
+                $("#tipoAtencion").addClass("is-invalid");
+
+            } else {
+                $("#tipoAtencion").removeClass("is-invalid");
+            }
+        }else{
+            const fd = new FormData();
+            fd.append('idmascota', idmascota);
+            fd.append('idveterinario', idveterinario);
+            fd.append('fecha', fecha);
+            fd.append('observacion', observacion);
+            fd.append('costo', costo);
+            fd.append('tipoAtencion', tipoAtencion);
+
+            $.ajax({
+                type: "POST",
+                url: base_url+"mascotas/insertServicio",
+                data: fd,
+                dataType: "json",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.status) {
+
+                        Swal.fire({
+                            title: 'Guardado',
+                            text: response.msg,
+                            icon: 'success',
+
+                            confirmButtonColor: '#3085d6',
+
+                            confirmButtonText: 'OK'
+
+                        },
+                            loaderForm.css('display', 'none'),
+                        ).then((result) => {
+                            if (result.isConfirmed) {
+                                location.href = base_url+"mascotas/historialMedico?id="+idmascota;
+                            }
+                        });
+
+                    } else {
+                        loaderForm.css('display', 'none');
+                        Swal.fire(
+                            'Atencion',
+                            response.msg,
+                            'error'
+                        )
+
+                    }
+                }
+            });
+        }
+    });
+}
+
+function fnEditarServicio(id){
+    Swal.fire({
+        title: 'Esta seguro de Aprobar el servicio?!!',
+        text: "Esto no es reversible",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Aprobar!'
+    }).then((result) => {
+        var fd = new FormData();
+        if (result.isConfirmed) {
+            fd.append('id', id);
+            $.ajax({
+                type: "POST",
+                url: base_url + "mascotas/editServicio",
+                data: fd,
+                dataType: "json",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.status) {
+                        Swal.fire(
+                            'Aprobado!',
+                            response.msg,
+                            'success'
+                        )
+                        fnHMascotas()
+                    } else {
+                        Swal.fire(
+                            'Aprobado!',
+                            response.msg,
+                            'error'
+                        )
+                    }
+
+                }
+            });
+        }
+
+    })
+}
+
+function fnEliminarServicio(id){
+
+Swal.fire({
+        title: 'Esta seguro de Eliminar?!!',
+        text: "Esto no es reversible",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!'
+    }).then((result) => {
+        var fd = new FormData();
+        if (result.isConfirmed) {
+            fd.append('id', id);
+            $.ajax({
+                type: "POST",
+                url: base_url + "mascotas/delServicio",
+                data: fd,
+                dataType: "json",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.status) {
+                        Swal.fire(
+                            'Deleted!',
+                            response.msg,
+                            'success'
+                        )
+                        fnHMascotas()
+                    } else {
+                        Swal.fire(
+                            'Deleted!',
+                            response.msg,
+                            'error'
+                        )
+                    }
+
+                }
+            });
+        }
+
+    })
 }
 
 

@@ -59,7 +59,7 @@
                 </div>
                 <div class="col-md-4 text-center">
                     <!-- Contenido de la columna derecha -->
-                    <img src="" id="fotoMascota" alt="Imagen del paciente" width="150" >
+                    <img src="" id="fotoMascota" alt="Imagen del paciente" width="150">
 
                 </div>
             </div>
@@ -81,14 +81,14 @@
                             <h6><b>CONSULTAS</b></h6>
 
                             <div class="btn-group-sm">
-                                <a href="" id="btnNuevaConsulta"  class="btn btn-primary"><i class="fa fa-plus"></i> Nueva Consulta</a>
+                                <a href="" id="btnNuevaConsulta" class="btn btn-primary"><i class="fa fa-plus"></i> Nueva Consulta</a>
 
                             </div>
                         </div>
                         <div class="card-body">
                             <!-- Contenido para la sección de Consultas -->
 
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="Tconsultas">
                                 <thead>
                                     <tr>
                                         <th scope="col">Nro</th>
@@ -98,17 +98,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>2023-08-05</td>
-                                        <td>TOS y DOLOR DE ESTOMAGO</td>
-                                        <td>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-info" disabled><i class="fa fa-eye"></i></button>
-                                                <button href="#" class="btn btn-info">Mas detalles</button>
-                                            </div>
-                                        </td>
-                                    </tr>
+
 
                                 </tbody>
                             </table>
@@ -125,13 +115,38 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="servicios">
+
+                    <!-- Contenido para la sección de Tratamientos -->
                     <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h6><b>SERVICIOS</b></h6>
+
+                            <div class="btn-group-sm">
+                                <a href="" id="btnNuevoServicio" class="btn btn-yellow"><i class="fa fa-plus"></i> Nuevo Servicio</a>
+
+                            </div>
+                        </div>
                         <div class="card-body">
-                            <!-- Contenido para la sección de Tratamientos -->
-                            <h5 class="card-title">Servicios</h5>
-                            <p class="card-text">Contenido de los servicios.</p>
+                            <!-- Contenido para la sección de Consultas -->
+
+                            <table class="table table-bordered" id="Tservicios">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nro</th>
+                                        <th scope="col">Fecha</th>
+                                        <th scope="col">Tipo de Servicio</th>
+                                        <th scope="col">Estado</th>
+                                        <th scope="col">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+
                 </div>
             </div>
 
@@ -139,7 +154,7 @@
 
 
 
-           
+
         </div>
 
 
@@ -147,12 +162,62 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalDetalles">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <b>DETALLE DE LA CONSULTA</b>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Veterinario</th>
+                                <td id="txtVeterinario"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Fecha de Consulta</th>
+                                <td id="txtFecha"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Temperatura(°C)</th>
+                                <td id="txtTemperatura"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Frecuencia Cardiaca</th>
+                                <td id="txtFCard"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Frecuencia Respiratoria</th>
+                                <td id="txtFRes"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Mucosa</th>
+                                <td id="txtMucosa"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Peso de la mascota</th>
+                                <td id="txtPeso"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Motivo</th>
+                                <td id="txtMotivo"></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
 </div>
 
 <?php require_once("Views/footer.php"); ?>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
-    
     $(document).ajaxStart(function() {
         $('.preloader').show();
     });

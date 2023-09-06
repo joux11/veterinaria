@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['idveterinario'] == "") {
+if ($_SESSION['idveterinario'] == "" && $_SESSION['idpersona'] == "" ) {
     header("Location: login");
 }
 
