@@ -13,6 +13,9 @@
 <script src="<?= BASE_URL ?>assets/plugins/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
 <script src="<?= BASE_URL ?>assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
 <script src="<?= BASE_URL ?>assets/plugins/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+<script src="<?= BASE_URL ?>assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="<?= BASE_URL ?>assets/plugins/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js"></script>
+
 
 
 <script>

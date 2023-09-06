@@ -9,15 +9,15 @@ private $base;
 public function __construct(){
     $this->conexion="";
     $this->db="sql10644413";
-    $this->host="sql10.freemysqlhosting.net:3306";
-    //$this->host="localhost";
+    //$this->host="sql10.freemysqlhosting.net:3306";
+    $this->host="localhost";
 
-    $this->usuario = "sql10644413";
-    //$this->usuario = "root";
+    //$this->usuario = "sql10644413";
+    $this->usuario = "root";
 
 
-    $this->clave ="wrfUuMYMIX";
-    //$this->clave ="";
+    //$this->clave ="wrfUuMYMIX";
+    $this->clave ="";
     }
     public function Conectar() {
         $this->conexion= mysqli_connect($this->host,$this->usuario, $this->clave,$this->db);

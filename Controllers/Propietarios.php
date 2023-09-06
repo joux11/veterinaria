@@ -23,11 +23,12 @@ class Propietarios
     public function insertPropietario()
     {
         $result = $this->model->insertPropietario($_POST['txtCedula'], $_POST['txtNombre'], $_POST['txtApellidoPa'], $_POST['txtApellidoMa'], $_POST['txtCelular'], $_POST['txtDireccion']);
-        if ($result) {
+        if (!$result) {
+            $response = array("status" => false, "msg" => "Error al Guardar, Cliente ya registrado :(");
+        }else{
             $response = array("status" => true, "msg" => "Guardado Correctamente!");
-        } else {
-            $response = array("status" => false, "msg" => "Error al Guardar :(");
         }
+        
         echo json_encode($response);
     }
 

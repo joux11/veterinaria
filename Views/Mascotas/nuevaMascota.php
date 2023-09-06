@@ -1,5 +1,6 @@
 <?php require_once("Views/header.php"); ?>
 <div id="content" class="app-content">
+
     <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Pacientes</a></li>
         <li class="breadcrumb-item"><a href="<?= BASE_URL ?>mascotas">Mascotas</a></li>
@@ -78,6 +79,12 @@
                     <label class="form-label" for="exampleFormControlInput1">Edad</label>
                     <input class="form-control" type="text" name="txtEdad" id="txtEdad">
                 </div>
+                <div class="col-lg-6">
+                    
+                        <label class="form-label" for="defaultFile">Subir Foto</label>
+                        <input type="file" class="form-control" id="inputFoto" />
+                   
+                </div>
             </div>
 
 
@@ -86,6 +93,7 @@
         </div>
         <div class="card-footer">
             <button class="btn btn-primary" id="btnGuardarMascota">Guardar Mascota</button>
+            <a href="<?=BASE_URL?>mascotas">Atras</a>
         </div>
     </div>
 

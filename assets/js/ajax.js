@@ -97,10 +97,101 @@ function fnMascotas() {
 
     });
 
+    $.ajax({
+
+
+        type: "POST",
+        url: base_url + "mascotas/getTablaMascotas",
+
+
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            $("#datatableDefault").html(response);
+        }
+    });
+
+
+
 
 }
 
-function fnNuevaMascota() {
+function btnEditMascota(id) {
+    $('#propietario').empty();
+    $("#modalLg").modal('show');
+
+    getPropietarios();
+
+    const fd = new FormData();
+    fd.append('id', id);
+    $.ajax({
+
+        type: "POST",
+        url: base_url + "mascotas/getAllById",
+        data: fd,
+        dataType: "json",
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            $('#txtNombreMascota').val(response.nombreMascota);
+            $('#propietario').val(response.idpropietario);
+            $('#txtEspecie').val(response.especie);
+            $('#txtRaza').val(response.raza);
+            $('#txtColor').val(response.color);
+            $('#txtPelaje').val(response.pelaje);
+            $('#txtTamaño').val(response.tamanio);
+            $('#txtSexo').val(response.sexo);
+            $('#txtEdad').val(response.edad);
+        }
+    });
+}
+
+function btnDelMascota(id) {
+    Swal.fire({
+        title: 'Esta seguro de Eliminar?!!',
+        text: "Esto no es reversible",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!'
+    }).then((result) => {
+        var fd = new FormData();
+        if (result.isConfirmed) {
+            fd.append('id', id);
+            $.ajax({
+                type: "POST",
+                url: base_url + "mascotas/deleteById",
+                data: fd,
+                dataType: "json",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.status) {
+                        Swal.fire(
+                            'Deleted!',
+                            response.msg,
+                            'success'
+                        )
+                        fnMascotas()
+                    } else {
+                        Swal.fire(
+                            'Deleted!',
+                            response.msg,
+                            'error'
+                        )
+                    }
+
+                }
+            });
+        }
+    })
+}
+
+function getPropietarios() {
     $.ajax({
         type: "POST",
         url: base_url + "propietarios/getPropietarios",
@@ -112,7 +203,11 @@ function fnNuevaMascota() {
             $("#propietario").append(response);
         }
     });
+}
 
+function fnNuevaMascota() {
+
+    getPropietarios()
 
     const btnGuardarMascota = document.querySelector("#btnGuardarMascota");
     btnGuardarMascota.addEventListener('click', () => {
@@ -133,7 +228,7 @@ function fnNuevaMascota() {
             $(this).removeClass("is-invalid");
         });
 
-        if (propietario.val() === 'Seleccione' || nombreMascota.val().trim() === '' || especie.val() === 'Elija la especie' || raza.val().trim() === '' || color.val().trim() === '' || pelaje.val() === 'Elija Pelaje') {
+        if (propietario.val() === 'Seleccione' || nombreMascota.val().trim() === '' || especie.val() === 'Elija la especie' || color.val().trim() === '' || pelaje.val() === 'Elija Pelaje') {
             if (propietario.val() === 'Seleccione') {
                 propietario.addClass('is-invalid');
 
@@ -159,14 +254,7 @@ function fnNuevaMascota() {
                 especie.removeClass('is-invalid');
             }
 
-            // Validar el campo de raza
 
-            if (raza.val().trim() === '') {
-                raza.addClass('is-invalid');
-
-            } else {
-                raza.removeClass('is-invalid');
-            }
 
             // Validar el campo de color
 
@@ -213,6 +301,9 @@ function fnNuevaMascota() {
                 edad.removeClass('is-invalid');
             }
         } else {
+            var foto = document.getElementById('inputFoto');
+            var file = foto.files[0];
+
             const formData = new FormData();
             formData.append('txtNombreMascota', $('#txtNombreMascota').val());
             formData.append('propietario', $('#propietario').val());
@@ -223,10 +314,11 @@ function fnNuevaMascota() {
             formData.append('txtTamaño', $('#txtTamaño').val());
             formData.append('txtSexo', $('#txtSexo').val());
             formData.append('txtEdad', $('#txtEdad').val());
+            formData.append('dirFoto',file)
 
 
-           
-            
+
+
             loaderForm.css('display', 'flex');
             $.ajax({
 
@@ -238,6 +330,7 @@ function fnNuevaMascota() {
                 contentType: false,
                 processData: false,
                 success: function (response) {
+                    
                     if (response.status) {
 
                         Swal.fire({
@@ -268,7 +361,7 @@ function fnNuevaMascota() {
                     }
                 }
             });
-            
+
         }
 
 
@@ -282,12 +375,6 @@ function fnNuevaMascota() {
 
 /* //////////////// FUNCIONES DE PROPIETARIOS //////////////////// */
 function fnPropietario() {
-
-
-
-
-
-
 
 
     const btnAgregarPropietario = document.querySelector("#btnAgregarPropietario");
@@ -517,7 +604,54 @@ function btnEliminarPropietario(id) {
 /***************************************************************************************************/
 
 
+function fnHMascotas() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const valorRecibido = urlParams.get('id');
 
+    const fd = new FormData();
+    fd.append('id', valorRecibido);
+    $.ajax({
+
+        type: "POST",
+        url: base_url + "mascotas/getDatosMascota",
+        data: fd,
+        dataType: "json",
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            
+            $("#btnNuevaConsulta").attr("href","nuevaConsulta?id="+response.idmascota);
+            $("#txtNombreMascota").text(response.nombreMascota);
+            $("#txtNombreMascotaF").val(response.nombreMascota);
+            $("#txtColor").text(response.color);
+            $("#txtTamanio").text(response.tamanio);
+            $("#txtEdad").text(response.edad);
+            $("#txtEspecie").text(response.especie);
+            $("#txtPelaje").text(response.pelaje);
+            $("#txtSexo").text(response.sexo);
+            $("#txtRaza").text(response.raza);
+            $("#txtNombreProp").text(response.nombres);
+            $("#txtDireccion").text(response.direccion);
+            $("#txtCelular").text(response.celular);
+            $("#txtCedula").text(response.cedula);
+        
+            if(response.foto == null || response.foto == ""){
+                $("#fotoMascota").attr("src", "../assets/uploads/sinFoto.jpg");
+            }else{
+                $("#fotoMascota").attr("src", response.foto);
+            }
+            
+
+
+        }
+    });
+
+}
+
+function fnNuevaConsulta(){
+    fnHMascotas();
+}
 
 
 

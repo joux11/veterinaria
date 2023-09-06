@@ -34,7 +34,12 @@ class PropietariosModel
             mysqli_real_escape_string($conex, $celular),
             mysqli_real_escape_string($conex, $direccion)
         );
-        $res = mysqli_query($conex, $sql);
+        try {
+            $res = mysqli_query($conex, $sql);
+        } catch (\Throwable $th) {
+            $res = false;
+        }
+        
         return $res;
     }
     public function getAll()
