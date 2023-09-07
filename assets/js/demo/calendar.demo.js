@@ -34,10 +34,10 @@ var handleRenderFullcalendar = function() {
       right: 'prev,next today'
     },
     buttonText: {
-    	today:    'Today',
-			month:    'Month',
-			week:     'Week',
-			day:      'Day'
+    	today:    'Hoy',
+			month:    'Mes',
+			week:     'Semana',
+			day:      'Dia'
     },
     initialView: 'dayGridMonth',
     editable: true,
@@ -50,7 +50,7 @@ var handleRenderFullcalendar = function() {
 			}
 		},
   	events: [{
-			title: 'Trip to London',
+			title: 'Revision',
 			start: year + '-'+ month +'-01',
 			end: year + '-'+ month +'-05',
 			color: app.color.teal

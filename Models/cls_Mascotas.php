@@ -166,7 +166,7 @@ class MascotasModel
         return $res;
     }
 
-    public function insertServicio($idmascota, $idcuidador, $fecha, $atencion, $observacion, $costo,) {
+    public function insertServicio($idmascota, $idcuidador, $fecha, $atencion, $observacion, $costo) {
         $conex = new DBConexion();
         $conex = $conex->Conectar();
         
@@ -211,6 +211,19 @@ class MascotasModel
         $sql = sprintf("update servicios set estado = 'realizado' where idservicios = %s;",$id);
         try {
             $res = mysqli_query($conex, $sql);
+        } catch (\Throwable $th) {
+            echo $th;
+            $res = false;
+        }
+        return $res;
+    }
+
+    public function getAllHistorialClinico($idmascota){
+        $conex = new DBConexion();
+        $conex = $conex->Conectar();
+        $sql = sprintf("SELECT m.idmascota AS ID_Mascota, m.nombreMascota AS Nombre_Mascota, m.raza AS Raza, m.color AS Color, m.pelaje AS Pelaje, m.edad AS Edad, m.tamanio AS Tamanio, m.especie AS Especie, m.sexo AS Sexo, c.fecha AS Fecha_Consulta, c.temperatura AS Temperatura, c.frecuenciaCardiaca AS Frecuencia_Cardiaca, c.frecuenciaRespiratoria AS Frecuencia_Respiratoria, c.mucosa AS Mucosa, c.peso AS Peso, c.motivo AS Motivo_Consulta, v.especialidad AS Especialidad_Veterinario, p.nombre AS Nombre_Propietario, p.apellido_pa AS Apellido_Propietario, p.cedula AS Cedula_Propietario, p.celular AS Celular_Propietario, p.direccion AS Direccion_Propietario FROM mascotas m JOIN consultas c ON m.idmascota = c.idmascota JOIN veterinarios v ON c.idveterinario = v.idveterinario JOIN propietarios p ON m.idpropietario = p.idpropietario where m.idmascota = %s",$idmascota);
+        try {
+            $res = mysqli_fetch_array(mysqli_query($conex, $sql));
         } catch (\Throwable $th) {
             echo $th;
             $res = false;

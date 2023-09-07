@@ -43,9 +43,9 @@
                     <label class="form-label">Dirección</label>
                     <textarea class="form-control" id="txtDireccion"></textarea>
                 </div>
-                <div class="d-flex">
+                <div class="">
                     <button class="btn btn-success me-2" id="btnAgregarPropietario">Agregar</button>
-
+                    <a href="<?=BASE_URL?>propietarios">Atras</a>
                 </div>
             </div>
         </div>

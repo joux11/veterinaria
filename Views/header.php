@@ -55,7 +55,7 @@ if ($_SESSION['idveterinario'] == "" && $_SESSION['idpersona'] == "" ) {
                     </button>
                 </div>
 
-                <a href="#" class="brand-logo">
+                <a href="<?= BASE_URL ?>dashboard" class="brand-logo">
                     <img src="<?= BASE_URL ?>assets/img/logo.png" alt="" height="20" />
                 </a>
             </div>
@@ -102,7 +102,7 @@ if ($_SESSION['idveterinario'] == "" && $_SESSION['idpersona'] == "" ) {
                     <div class="menu-divider"></div>
                     <div class="menu-header">Calendario</div>
                     <div class="menu-item">
-                        <a href="#" class="menu-link">
+                        <a href="<?=BASE_URL?>calendario" class="menu-link">
 
                             <span class="menu-icon"><i class="fa fa-calendar-alt"></i></span>
                             <span class="menu-text">Calendario de Citas</span>
@@ -135,7 +135,7 @@ if ($_SESSION['idveterinario'] == "" && $_SESSION['idpersona'] == "" ) {
                     <div class="menu-divider"></div>
                     <div class="menu-header">Historial de Servicios</div>
                     <div class="menu-item">
-                        <a href="#" class="menu-link">
+                        <a href="<?= BASE_URL ?>servicios" class="menu-link">
 
                             <span class="menu-icon"><i class="fa fa-medkit"></i></span>
                             <span class="menu-text">Mis Servicios </span>

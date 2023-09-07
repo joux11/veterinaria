@@ -10,8 +10,8 @@ public function __construct(){
     $this->conexion="";
     $this->db="sql106444132";
     //$this->host="sql10.freemysqlhosting.net:3306";
-    $this->host="localhost";
-
+    //$this->host="localhost";
+    $this->host = "localhost:3306";
     //$this->usuario = "sql10644413";
     $this->usuario = "root";
 

@@ -1,4 +1,10 @@
-<?php require_once("Views/header.php"); ?>
+<?php
+
+echo realpath('veterinaria/Libs/fpdf/fpdf.php');
+
+require_once("Views/header.php"); 
+?>
+
 <div id="content" class="app-content">
     <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Pacientes</a></li>
@@ -11,6 +17,7 @@
     <div class="card shadow">
         <div class="card-header bg-pink text-white">
             <b>HISTORIAL MEDICO</b>
+            <a href="" class="btn btn-primary" id="btngenerarPdf">Descargar Historial Médico</a>
         </div>
         <div class="card-body">
 

@@ -33,6 +33,9 @@ class Mascotas
     public function nuevoServicio(){
         $this->views->getView($this,"nuevoServicio");
     }
+    public function generarpdf(){
+        $this->views->getView($this,"generarpdf");
+    }
 
 
     public function insertMascota()
